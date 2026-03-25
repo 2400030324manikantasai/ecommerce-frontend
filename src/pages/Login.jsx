@@ -18,22 +18,23 @@ function Login() {
   };
 
   const handleLogin = () => {
-    API.post("/api/auth/login", login)   // ✅ FIXED ENDPOINT
+    API.post("/api/auth/login", login)   // ✅ FIXED
       .then((res) => {
-        console.log("Response:", res.data); // optional debug
+        console.log(res.data);
 
-        const role = res.data.role;
+        const user = res.data;
 
-        localStorage.setItem("role", role);
+        localStorage.setItem("user", JSON.stringify(user)); // ✅ STORE USER
+        localStorage.setItem("role", user.role); // ✅ STORE ROLE
 
-        if (role === "ADMIN") {
+        if (user.role === "ADMIN") {
           navigate("/admin-dashboard");
         } else {
           navigate("/customer-dashboard");
         }
       })
       .catch((err) => {
-        console.log("Error:", err);
+        console.log(err);
         alert("Invalid login credentials");
       });
   };
@@ -42,7 +43,6 @@ function Login() {
     <div className="container-fluid vh-100">
       <div className="row h-100">
 
-        {/* LEFT SIDE LOGIN */}
         <div className="col-md-6 d-flex align-items-center justify-content-center bg-light">
           <div style={{ width: "350px" }}>
             <h2 className="mb-4 text-center">Login</h2>
@@ -63,10 +63,7 @@ function Login() {
               onChange={handleChange}
             />
 
-            <button
-              className="btn btn-primary w-100"
-              onClick={handleLogin}
-            >
+            <button className="btn btn-primary w-100" onClick={handleLogin}>
               Login
             </button>
 
@@ -82,16 +79,11 @@ function Login() {
           </div>
         </div>
 
-        {/* RIGHT SIDE IMAGE */}
         <div className="col-md-6 p-0">
           <img
             src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200"
             alt="Ecommerce"
-            style={{
-              width: "100%",
-              height: "100vh",
-              objectFit: "cover"
-            }}
+            style={{ width: "100%", height: "100vh", objectFit: "cover" }}
           />
         </div>
 
