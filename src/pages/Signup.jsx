@@ -20,18 +20,14 @@ function Signup() {
   };
 
   const signup = () => {
-    API.post("/api/auth/signup", user)   // ✅ FIXED
+    API.post("/api/auth/signup", user)
       .then((res) => {
-        console.log(res.data);
-
-        const newUser = res.data;
-
-        localStorage.setItem("user", JSON.stringify(newUser)); // ✅ STORE
-        localStorage.setItem("role", newUser.role);
-
         alert("Signup Successful");
 
-        navigate("/customer-dashboard");
+        // ❌ Do NOT store user here
+        // ❌ Do NOT go to dashboard
+
+        navigate("/login"); // ✅ go to login page
       })
       .catch((err) => {
         console.log(err);
