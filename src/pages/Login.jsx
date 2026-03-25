@@ -18,14 +18,13 @@ function Login() {
   };
 
   const handleLogin = () => {
-    API.post("/api/auth/login", login)   // ✅ FIXED
+    API.post("/api/auth/login", login)
       .then((res) => {
-        console.log(res.data);
-
         const user = res.data;
 
-        localStorage.setItem("user", JSON.stringify(user)); // ✅ STORE USER
-        localStorage.setItem("role", user.role); // ✅ STORE ROLE
+        // ✅ Store user after login
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("role", user.role);
 
         if (user.role === "ADMIN") {
           navigate("/admin-dashboard");
