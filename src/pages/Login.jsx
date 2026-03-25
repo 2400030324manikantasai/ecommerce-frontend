@@ -18,8 +18,10 @@ function Login() {
   };
 
   const handleLogin = () => {
-    API.post("/auth/login", login)
+    API.post("/api/auth/login", login)   // ✅ FIXED ENDPOINT
       .then((res) => {
+        console.log("Response:", res.data); // optional debug
+
         const role = res.data.role;
 
         localStorage.setItem("role", role);
@@ -30,7 +32,8 @@ function Login() {
           navigate("/customer-dashboard");
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log("Error:", err);
         alert("Invalid login credentials");
       });
   };
