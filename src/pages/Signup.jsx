@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
 function Signup() {
-
   const navigate = useNavigate();
-  
 
   const [user, setUser] = useState({
     name: "",
@@ -22,13 +20,22 @@ function Signup() {
   };
 
   const signup = () => {
-    API.post("/auth/signup", user)
+    API.post("/api/auth/signup", user)   // ✅ FIXED
       .then((res) => {
+        console.log(res.data);
+
+        const newUser = res.data;
+
+        localStorage.setItem("user", JSON.stringify(newUser)); // ✅ STORE
+        localStorage.setItem("role", newUser.role);
+
         alert("Signup Successful");
 
-        localStorage.setItem("user", JSON.stringify(res.data));
-
         navigate("/customer-dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Signup failed");
       });
   };
 
@@ -43,10 +50,8 @@ function Signup() {
       <button className="btn btn-primary" onClick={signup}>
         Signup
       </button>
-      <button
-        className="btn btn-secondary mb-3"
-        onClick={() => navigate("/login")}
-      >
+
+      <button className="btn btn-secondary mb-3" onClick={() => navigate("/login")}>
         Back
       </button>
     </div>
