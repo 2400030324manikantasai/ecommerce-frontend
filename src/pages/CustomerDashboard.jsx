@@ -29,7 +29,7 @@ function CustomerDashboard() {
       <table className="table mt-3">
         <thead>
           <tr>
-            <th>Image</th> {/* ✅ Added */}
+            <th>Image</th>
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
@@ -40,8 +40,9 @@ function CustomerDashboard() {
           {products.map((p) => (
             <tr key={p.id}>
               <td>
+                {/* Product Image */}
                 <img
-                  src={p.imageUrl}   {/* ✅ IMPORTANT */}
+                  src={p.imageUrl}
                   alt={p.name}
                   style={{
                     width: "80px",
