@@ -6,7 +6,7 @@ function CustomerDashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    API.get("/products") // ✅ correct
+    API.get("/products")
       .then((res) => setProducts(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -29,14 +29,28 @@ function CustomerDashboard() {
       <table className="table mt-3">
         <thead>
           <tr>
+            <th>Image</th> {/* ✅ Added */}
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
           </tr>
         </thead>
+
         <tbody>
           {products.map((p) => (
             <tr key={p.id}>
+              <td>
+                <img
+                  src={p.imageUrl}   {/* ✅ IMPORTANT */}
+                  alt={p.name}
+                  style={{
+                    width: "80px",
+                    height: "60px",
+                    objectFit: "cover",
+                    borderRadius: "6px"
+                  }}
+                />
+              </td>
               <td>{p.name}</td>
               <td>{p.price}</td>
               <td>{p.quantity}</td>
