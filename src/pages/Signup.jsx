@@ -19,35 +19,51 @@ function Signup() {
     });
   };
 
-  const signup = () => {
-    API.post("/api/auth/signup", user)
-      .then((res) => {
-        alert("Signup Successful");
-
-        // ❌ Do NOT store user here
-        // ❌ Do NOT go to dashboard
-
-        navigate("/login"); // ✅ go to login page
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Signup failed");
-      });
+  const signup = async () => {
+    try {
+      await API.post("/auth/signup", user); // ✅ FIXED
+      alert("Signup Successful");
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+      alert("Signup failed");
+    }
   };
 
   return (
     <div className="container mt-5">
       <h2>Signup</h2>
 
-      <input className="form-control mb-2" name="name" placeholder="Name" onChange={handleChange}/>
-      <input className="form-control mb-2" name="email" placeholder="Email" onChange={handleChange}/>
-      <input className="form-control mb-2" type="password" name="password" placeholder="Password" onChange={handleChange}/>
+      <input
+        className="form-control mb-2"
+        name="name"
+        placeholder="Name"
+        onChange={handleChange}
+      />
+
+      <input
+        className="form-control mb-2"
+        name="email"
+        placeholder="Email"
+        onChange={handleChange}
+      />
+
+      <input
+        className="form-control mb-2"
+        type="password"
+        name="password"
+        placeholder="Password"
+        onChange={handleChange}
+      />
 
       <button className="btn btn-primary" onClick={signup}>
         Signup
       </button>
 
-      <button className="btn btn-secondary mb-3" onClick={() => navigate("/login")}>
+      <button
+        className="btn btn-secondary mt-2"
+        onClick={() => navigate("/login")}
+      >
         Back
       </button>
     </div>
@@ -55,3 +71,4 @@ function Signup() {
 }
 
 export default Signup;
+      
