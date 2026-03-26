@@ -2,23 +2,17 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 
 function CustomerDashboard() {
-  const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    setUser(storedUser);
-
-    // ✅ FETCH PRODUCTS
-    API.get("/products")
-      .then((res) => {
-        setProducts(res.data);
-      })
+    API.get("/products") // ✅ correct
+      .then((res) => setProducts(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem("user");
     window.location.href = "/login";
   };
 
@@ -26,54 +20,30 @@ function CustomerDashboard() {
     <div className="container mt-5">
       <h2>Customer Dashboard</h2>
 
-      <button className="btn btn-danger me-2" onClick={logout}>
+      <button className="btn btn-danger mb-3" onClick={logout}>
         Logout
       </button>
 
-      <button className="btn btn-info">Share Product</button>
+      <h4>Welcome: {user?.name}</h4>
 
-      {/* USER TABLE */}
-      {user && (
-        <table className="table table-bordered mt-4">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
+      <table className="table mt-3">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((p) => (
+            <tr key={p.id}>
+              <td>{p.name}</td>
+              <td>{p.price}</td>
+              <td>{p.quantity}</td>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-            </tr>
-          </tbody>
-        </table>
-      )}
-
-      {/* ✅ PRODUCTS UI */}
-      <div className="row mt-4">
-        {products.map((p) => (
-          <div className="col-md-4" key={p.id}>
-            <div className="card shadow mb-3">
-              <img
-                src={p.image_url}
-                className="card-img-top"
-                alt="product"
-                style={{ height: "200px", objectFit: "cover" }}
-              />
-              <div className="card-body">
-                <h5>{p.name}</h5>
-                <p>Price: ₹{p.price}</p>
-                <p>Available: {p.quantity}</p>
-
-                <button className="btn btn-success">Buy</button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
