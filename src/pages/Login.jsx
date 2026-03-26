@@ -28,45 +28,86 @@ export default function Login() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response?.data || err);
         alert("Invalid credentials");
       });
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Login</h2>
-
-      <input
-        className="form-control mb-2"
-        type="email"
-        placeholder="Email"
-        value={login.email}
-        onChange={(e) =>
-          setLogin({ ...login, email: e.target.value })
-        }
-      />
-
-      <input
-        className="form-control mb-2"
-        type="password"
-        placeholder="Password"
-        value={login.password}
-        onChange={(e) =>
-          setLogin({ ...login, password: e.target.value })
-        }
-      />
-
-      <button className="btn btn-primary" onClick={handleLogin}>
-        Login
-      </button>
-
-      <button
-        className="btn btn-secondary mt-2"
-        onClick={() => navigate("/signup")}
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "#e9ecef"
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          width: "750px",
+          background: "#fff",
+          borderRadius: "10px",
+          overflow: "hidden",
+          boxShadow: "0 0 15px rgba(0,0,0,0.1)"
+        }}
       >
-        Go to Signup
-      </button>
+        {/* LEFT SIDE (FORM) */}
+        <div style={{ flex: 1, padding: "40px" }}>
+          <h2 style={{ marginBottom: "20px" }}>Login</h2>
+
+          <input
+            className="form-control mb-3"
+            type="email"
+            placeholder="Email"
+            value={login.email}
+            onChange={(e) =>
+              setLogin({ ...login, email: e.target.value })
+            }
+          />
+
+          <input
+            className="form-control mb-3"
+            type="password"
+            placeholder="Password"
+            value={login.password}
+            onChange={(e) =>
+              setLogin({ ...login, password: e.target.value })
+            }
+          />
+
+          <button
+            className="btn btn-primary w-100 mb-2"
+            onClick={handleLogin}
+          >
+            Login
+          </button>
+
+          <p style={{ textAlign: "center", marginTop: "10px" }}>
+            Don't have an account?{" "}
+            <span
+              style={{ color: "blue", cursor: "pointer" }}
+              onClick={() => navigate("/signup")}
+            >
+              Signup
+            </span>
+          </p>
+        </div>
+
+        {/* RIGHT SIDE (IMAGE) */}
+        <div style={{ flex: 1 }}>
+          <img
+            src="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+            alt="login"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover"
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
